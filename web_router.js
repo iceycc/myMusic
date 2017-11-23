@@ -6,6 +6,8 @@ const express = require('express');
 
 // 引入userC 
 const userC = require('./controllers/usersC');
+// 引入musicC
+const musicC = require('./controllers/musicC')
 
 
 
@@ -19,10 +21,16 @@ router
   .get('/test', userC.doTest)
   // 2-检测用户名是否存在
   .post('/user-check', userC.userCheck)
-// 3-注册新用户
+  // 3-注册新用户
   .post('/user-register', userC.doRegister)
-// 4-添加音乐
+  // 4-登陆
+  .post('/user-login', userC.doLogin)
+  
+  // 5-添加音乐
+  .post('/music-add', musicC.addMusic)
 // 5-跟新音乐
+  .post('/music-update', musicC.updateMusic)
+
 
 
 

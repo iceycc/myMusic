@@ -55,7 +55,7 @@ userC.userCheck = (req, res, next) => {
  * @param {*} res 
  * @param {*} next 
  */
-userC.doRegister = (req,res,next)=>{
+userC.doRegister = (req, res, next) => {
   // 1 接受数据
   let userData = req.body;
   let username = userData.username;
@@ -69,41 +69,77 @@ userC.doRegister = (req,res,next)=>{
   if (!regex.test(email)) {
     // 不满足邮箱格式
     res.json({
-      code: '004', msg: '邮箱不合法'
+      code: '004',
+      msg: '邮箱不合法'
     });
     return;
   }
   // 2-3 验证用户名或者邮箱是否存在
-  db.q('select * from users where username = ? or email = ?',
-  [username,email],(err,data)=>{
-    if(err) return next(err);
-    if(data.length != 0 ){
+  db.q('select * from users where username = ? or email = ?', [username, email], (err, data) => {
+    if (err) return next(err);
+    if (data.length != 0) {
       let user = data[0];
-      if(user.email == email){
+      if (user.email == email) {
         return res.json({
-          code:'002',msg:'邮箱已经注册'
+          code: '002',
+          msg: '邮箱已经注册'
         });
-      } else if(user.username == username) {
+      } else if (user.username == username) {
         return res.json({
-          code:'002',msg:'用户名已经注册'
+          code: '002',
+          msg: '用户名已经注册'
         })
       }
-    }else{
+    } else {
       // 用户名和邮箱都不存在 可以注册
-      db.q('insert into users (username,password,email) values (?,?,?)',
-    [username,password,email],(err,data)=>{
-      if(err) return next(err);
-      res.json({
-        code: '002', msg: '用户名已经注册成功'
+      db.q('insert into users (username,password,email) values (?,?,?)', [username, password, email], (err, data) => {
+        if (err) return next(err);
+        res.json({
+          code: '002',
+          msg: '用户名已经注册成功'
+        })
       })
-    })
     }
 
   })
- 
+
 }
 
-
+/**
+ * 登陆
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+userC.doLogin = (req, res, next) => {
+  // 1-接受参数
+  let username = req.body.username;
+  let password = req.body.password;
+  let remember_me = req.body.remember_me;
+  // 2-用户是否存在 将用户名作物条件查询是数据库
+  db.q('select * from users where username = ?', [username], (err, data) => {
+    if (err) return next(err);
+    // 数据库中
+    if (data.length == 0) {
+      return res.json({
+        code:'002',msg:'用户名或密码不正确'
+      });   
+     }
+    //  找到了用户
+    let dbUser = data[0];
+    if(dbUser.password != password){
+      return res.json({
+        code:'002',msg:'用户名和密码不正确'
+      })
+    }
+    //  给session上存储用户数据
+    // 只要session上有,user就说明登陆了
+    req.session.user = dbUser;
+    res.json({
+      code:'001',msg:'登陆成功'
+    })
+  })
+}
 
 
 module.exports = userC;
