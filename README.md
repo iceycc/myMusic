@@ -101,3 +101,53 @@
 * 音乐列表
 * 添加音乐
 * 更新页面
+
+##### 其他
+* 抽离用户验证拦截功能 结合正则表达式 在路由中间件执行之前先设置用户拦截
+# 前端页面展示
+
+* 登录页
+* 音乐列表
+  * 歌词滚动的实现
+    * 思路 以事件为属性 歌词为值 创建歌词对象
+    * 对歌词处理
+      * 先切割
+      * 在使用正则获取时间  转化为对象key
+      * 获取 歌词部分 对象的值
+    * 获取歌词时间
+      * 给audio添加播放事件updatetime
+      * 获取e.targert/currentTime() TODO:
+    * 获取歌词 及 滚动时的top值
+    * 其他 for循环中的continue 
+* formData文件上传
+  * new FormData()
+  * formData.append()
+  * $.ajax 中添加两个属性
+    * contentType:false,
+    * prosessType:false,
+* 密码强度
+* 登陆后右上角显示当前用户信息  
+  * art-complate中的 if语法         * if
+      
+      ````javascript
+        {{if boolean}}
+        {{else}}
+        {{/if}}
+      ````
+  * session
+* html公共部分抽离 
+  * 胡子语法 include 类似php
+* 在中间件中使用 app.locals.xxx.给模板引擎传值
+#### 项目代码结构
+* 中间件
+  * 自定义功能
+  * 第三方
+    * 权限控制
+  * 路由
+    * api数据路由
+      * 配置请求方式 + url = 控制器调用 => C
+    * 音乐页面路由 + 用户页面路由
+      * 数据+渲染  => V
+
+* 数据库  => M
+  * 

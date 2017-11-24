@@ -14,7 +14,7 @@ const musicC = require('./controllers/musicC')
 
 
 
-// 配置路由 开始
+// 配置路由 开始   /api
 let router = express.Router();
 router
   // 1-测试路由
@@ -28,12 +28,14 @@ router
 
   // 5-添加音乐
   .post('/music-add', musicC.addMusic)
-  // 6-跟新音乐
+  // 6-更新音乐
   .post('/music-update', musicC.updateMusic)
   // 7-删除音乐
   .get('/music-del',musicC.delMusic)
   // 8-退出账号
   .get('/user-logout', userC.userLogout)
+
+  // TODO:测试完成
 
 
 

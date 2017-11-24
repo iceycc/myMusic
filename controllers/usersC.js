@@ -161,7 +161,7 @@ userC.userLogout = (req,res,next) => {
  * @param {*} res 
  * @param {*} next 
  */
-userC.userLogout = (req, res, next) => {
+userC.showLogin = (req, res, next) => {
   res.render('login.html');
 
 };
@@ -176,4 +176,4 @@ userC.showRegister = (req,res,next) => {
   res.render('register.html');
 }; 
 
-module.exports = userC;
+module.exports = userC;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

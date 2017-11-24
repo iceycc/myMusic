@@ -17,6 +17,7 @@ const session = require('express-session');
 // 引入router中间件文件
 const api_router = require('./web_router');
 const user_router = require('./user_router');
+const music_router = require('./music_router')
 
 // 配置模版引擎
 app.engine('html', require('express-art-template'));
@@ -73,7 +74,7 @@ app.use(/\/music|\/api\/.*music/, (req, res, next) => {
 // no.3:路由中间件
 app.use('/api', api_router);
 app.use('/user', user_router);
-app.use('/music',musice_router);
+app.use('/music',music_router);
 
 // no.4:错误处理中间件
 app.use((err, req, res, next) => {
