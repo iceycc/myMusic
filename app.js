@@ -57,10 +57,23 @@ app.use(bodyParser.urlencoded({
 // parse application/json
 app.use(bodyParser.json());
 
+//在路由中间件执行之前必经之路(url中包含music) TODO:抽离用户验证
+app.use(/\/music|\/api\/.*music/, (req, res, next) => {
+  //判断是否存在session上的user
+  if (!req.session.user) {
+    return res.send(`
+                 请去首页登录
+                 <a href="/user/login">点击</a>
+            `);
+  }
+  //比如当前请求是 /music/add-music
+  next();
+});
+
 // no.3:路由中间件
 app.use('/api', api_router);
 app.use('/user', user_router);
-// app.use('/music',musice_router);
+app.use('/music',musice_router);
 
 // no.4:错误处理中间件
 app.use((err, req, res, next) => {

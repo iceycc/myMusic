@@ -21,13 +21,13 @@ let musicC = {};
  */
 musicC.addMusic = (req, res, next) => {
   // 判断是否存在session上的user
-  if (!req.session.user) {
-    res.send(`
-                 请去首页登录
-                 <a href="/user/login">点击</a>
-            `);
-    return;
-  }
+  // if (!req.session.user) {
+  //   res.send(`
+  //                请去首页登录
+  //                <a href="/user/login">点击</a>
+  //           `);
+  //   return;
+  // }
   // 登陆成功
   // 声明一个formidable对象 固定格式
   var form = new formidable.IncomingForm();
@@ -90,13 +90,13 @@ musicC.addMusic = (req, res, next) => {
  */
 musicC.updateMusic = (req,res,next) => {
   // 判断session上的user
-  if (!req.session.user) {
-    res.send(`
-                 请去首页登录
-                 <a href="/user/login">点击</a>
-            `);
-    return;
-  }
+  // if (!req.session.user) {
+  //   res.send(`
+  //                请去首页登录
+  //                <a href="/user/login">点击</a>
+  //           `);
+  //   return;
+  // }
   // 登陆成功
   // 声明一个formidable对象 固定格式
   var form = new formidable.IncomingForm();
@@ -164,13 +164,13 @@ musicC.updateMusic = (req,res,next) => {
  */
 musicC.delMusic = (req,res,next) => {
   // 判断session上的user
-  if (!req.session.user) {
-    res.send(`
-                 请去首页登录
-                 <a href="/user/login">点击</a>
-            `);
-    return;
-  }
+  // if (!req.session.user) {
+  //   res.send(`
+  //                请去首页登录
+  //                <a href="/user/login">点击</a>
+  //           `);
+  //   return;
+  // }
   // 1接受参数  get url 传参
   // 2将参数作为删除条件 进行del
   // 3根据操作做出反应
