@@ -7,6 +7,8 @@ const db = require('../models/db');
 const formidable = require('formidable');
 // 引入path核心对象
 const path = require('path');
+// 引入公共配置对象
+const config = require('../config');
 
 
 
@@ -32,7 +34,7 @@ musicC.addMusic = (req, res, next) => {
   // 声明一个formidable对象 固定格式
   var form = new formidable.IncomingForm();
   // 设置默认的文件上传地址
-  // form.uploadDir = path.join(__dirname,'public/files');
+  form.uploadDir = path.join(config.rootPath,'public/files');
   form.parse(req, (err, fields, files) => {
     if (err) return next(err);
     // console.log(fields, files);
@@ -101,7 +103,7 @@ musicC.updateMusic = (req,res,next) => {
   // 声明一个formidable对象 固定格式
   var form = new formidable.IncomingForm();
   // 设置默认的文件上传地址
-  // form.uploadDir = path.join(__dirname,'public/files');
+  form.uploadDir = path.join(config.rootPath,'public/files');
   form.parse(req, (err, fields, files) => {
     if (err) return next(err);
     // console.log(fields, files);

@@ -1,10 +1,12 @@
 'use strict';
+// 引入公共配置文件
+const config = require('./config');
 // 1-创建服务器对象
 const express = require('express');
 // 2-创建服务器对象
 const app = express();
 // 3-开启服务器端口
-app.listen(9898, () => {
+app.listen(config.web_port,config.web_host, () => {
   console.log('我自己的音乐服务启动了');
 });
 

@@ -1,12 +1,15 @@
 // 用户数据链接 查询
+// 引入公共配置文件
+const config = require('../config');
+
 // 引入数据库对象
 const mysql = require('mysql');
 const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: '127.0.0.1',
-  user: 'root',
-  password: 'wby123',
-  database: 'node_music'
+  connectionLimit: config.db_connectionLimit,
+  host: config.web_port,
+  user: config.db_user,
+  password: config.db_password,
+  database: config.db_database
 });
 
 
