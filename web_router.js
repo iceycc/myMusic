@@ -25,16 +25,15 @@ router
   .post('/user-register', userC.doRegister)
   // 4-登陆
   .post('/user-login', userC.doLogin)
-  
+
   // 5-添加音乐
   .post('/music-add', musicC.addMusic)
-// 5-跟新音乐
+  // 6-跟新音乐
   .post('/music-update', musicC.updateMusic)
-
-
-
-
-
+  // 7-删除音乐
+  .get('/music-del',musicC.delMusic)
+  // 8-退出账号
+  .get('/user-logout', userC.userLogout)
 
 
 

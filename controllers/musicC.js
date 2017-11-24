@@ -154,8 +154,45 @@ musicC.updateMusic = (req,res,next) => {
 
 
 }
+/**
+ * 删除音乐
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+musicC.delMusic = (req,res,next) => {
+  // 判断session上的user
+  if (!req.session.user) {
+    res.send(`
+                 请去首页登录
+                 <a href="/user/login">点击</a>
+            `);
+    return;
+  }
+  // 1接受参数  get url 传参
+  // 2将参数作为删除条件 进行del
+  // 3根据操作做出反应
+  let id = req.query.id;
+  let uid = req.session.user.id;
+  // delete from "tablename" where "columnname" 
+  db.q('delete from musics where id = ? and uid = ?',[id,uid],(err,data)=>{
+    if(err) return next(err);
+    console.log(data);
+    if (data.affectedRows != 0){
+      res.json({
+        code: '001',
+        msg: '删除音乐音乐成功'
+      })
+    }else{
+      res.json({
+        code: '002',
+        msg: '删除音乐的音乐不存在'
+      })  
+    }
 
+  })
 
+}
 
 
 module.exports = musicC;

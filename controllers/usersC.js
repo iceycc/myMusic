@@ -141,5 +141,39 @@ userC.doLogin = (req, res, next) => {
   })
 }
 
+/**
+ * 退出登陆
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+userC.userLogout = (req,res,next) => {
+  req.session.user = null;
+  res.json({
+    code:'001',msg:'退出成功'
+  })
+}
+
+
+/**
+ * 显示登录页
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+userC.userLogout = (req, res, next) => {
+  res.render('login.html');
+
+};
+
+/**
+ * 显示注册页面
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+userC.showRegister = (req,res,next) => {
+  res.render('register.html');
+}; 
 
 module.exports = userC;

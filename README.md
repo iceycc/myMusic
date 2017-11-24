@@ -29,6 +29,8 @@
   * fs-extra  文件操作拓展模块
   * captchapng2  彩色验证模块
   * express-session 处理session的模块,记住用户
+  * body-parser  用于处理post表单提交
+  * formidable   用于处理文件上传
 
 #### 数据库建模
 
@@ -55,7 +57,7 @@
 * ...待续...
 
 #### 后端接口实现阶段
-
+##### 路由接口  
 * 服务器搭建 app.js
 * 中间件配置
   * 在路由使用session之前，先生产session
@@ -69,3 +71,33 @@
       // cookie: { secure: true // 仅仅在https下使用 }
   }));
   ````
+
+* 处理请求
+  * app.use()
+* 注意事项
+  * 引入body-parser第三方对象后别忘了在处理路由中间件之前进行对post请求的解析
+  ```` javascript
+  处理post请求数据
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({
+    extended: false
+  }));
+  // parse application/json
+  app.use(bodyParser.json());
+  ````
+* formidable 中的参数files和fields
+* 接口返回json格式的code编码和对应的描述
+  ```` javascript
+  res.json({
+    code:'001',msg:'成功'
+  })
+  ````
+
+
+##### 相关页面的后端渲染  接口 res.render()
+
+* 登陆
+* 注册
+* 音乐列表
+* 添加音乐
+* 更新页面

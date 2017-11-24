@@ -19,8 +19,8 @@ app.engine('html', require('express-art-template'));
 
 
 // 引入router中间件文件
-const router = require('./web_router');
-
+const api_router = require('./web_router');
+const user_router = require('./user_router');
 
 
 
@@ -53,7 +53,9 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // no.3:路由中间件
-app.use('/api', router);
+app.use('/api', api_router);
+app.use('/user', user_router);
+// app.use('/music',musice_router);
 
 // no.4:错误处理中间件
 app.use((err, req, res, next) => {
