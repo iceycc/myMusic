@@ -218,7 +218,15 @@ musicC.showAddMusic = (req,res,next) => {
  * @param {*} next 
  */
 musicC.showListMusic = (req,res,next) => {
-  res.render('index.html');
+  let userId = req.session.user.id;
+  //以用户id作为查询条件查询音乐表
+  db.q('select * from musics where uid = ?', [userId], (err, musics) => {
+    res.render('index.html', {
+      //循环，给每个元素加一个索引，利用模板引擎的index属性+1
+      musics, //musics:musics ES6简写
+      // user:req.session.user
+    })
+  })
   
 }
 

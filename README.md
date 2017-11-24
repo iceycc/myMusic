@@ -105,8 +105,11 @@
 ##### 其他
 * 抽离用户验证拦截功能 结合正则表达式 在路由中间件执行之前先设置用户拦截
 * 公共样式抽离
-# 前端页面展示
+##### 前端页面展示
 
+* 导入静态页面
+  * html公共部分抽离 
+  * 胡子语法 include 类似php
 * 登录页
 * 音乐列表
   * 歌词滚动的实现
@@ -124,22 +127,21 @@
   * new FormData()
   * formData.append()
   * $.ajax 中添加两个属性
-    * contentType:false,
-    * prosessType:false,
+    > contentType:false,  
+    > prosessType:false,
 * 密码强度
-* 登陆后右上角显示当前用户信息  
-  * art-complate中的 if语法         * if
-      
+* 登陆后右上角显示当前用户信息
+  * art-complate中的 if语法
+  * if
       ````javascript
         {{if boolean}}
         {{else}}
         {{/if}}
       ````
   * session
-* html公共部分抽离 
-  * 胡子语法 include 类似php
+
 * 在中间件中使用 app.locals.xxx.给模板引擎传值
-#### 项目代码结构
+#### 项目代码结构 app.js
 * 中间件
   * 自定义功能
   * 第三方
@@ -151,4 +153,13 @@
       * 数据+渲染  => V
 
 * 数据库  => M
-  * 
+
+### 功能分析
+
++ 删除音乐 
+  + 思路
+    + 接受参数
+    + 将参数作为删除的条件,进行del操作
+    + 根据操作结果做出响应
+  + 删除成功后数据库返回结果
+
