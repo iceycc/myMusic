@@ -153,7 +153,9 @@ musicC.updateMusic = (req,res,next) => {
 
 
 
-}
+};
+
+
 /**
  * 删除音乐
  * @param {*} req 
@@ -192,6 +194,30 @@ musicC.delMusic = (req,res,next) => {
 
   })
 
+}
+
+
+
+/**
+ * 显示添加音乐
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+musicC.showAddMusic = (req,res,next) => {
+  
+  res.render('add.html');
+};
+
+/**
+ * 显示音乐列表
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+musicC.showListMusic = (req,res,next) => {
+  res.render('index.html');
+  
 }
 
 

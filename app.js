@@ -14,13 +14,18 @@ const bodyParser = require('body-parser');
 //引入session
 const session = require('express-session');
 
-// 配置模版引擎
-app.engine('html', require('express-art-template'));
-
-
 // 引入router中间件文件
 const api_router = require('./web_router');
 const user_router = require('./user_router');
+
+// 配置模版引擎
+app.engine('html', require('express-art-template'));
+
+// 处理静态资源
+app.use('/public', express.static('./public'));
+
+
+
 
 
 

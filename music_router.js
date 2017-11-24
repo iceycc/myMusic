@@ -6,20 +6,16 @@ const express = require('express');
 
 
 // 引入userC 
-const userC = require('./controllers/usersC');
+const userC = require('./controllers/musicC');
 
 
 // 配置路由 开始
 let router = express.Router();
 router
-  // 登陆页
-  .get('/login', userC.showLogin)
-  // 注册页
-  .get('/register', userC.showRegister)
-
-
-
-
+  // 添加音乐
+  .get('/add-music', userC.showAddMusic)
+  // 显示页面列表
+  .get('/list-music', userC.showListMusic)
 
 
 // 暴露
