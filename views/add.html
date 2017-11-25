@@ -7,14 +7,11 @@
 </head>
 
 <body>
-     {{include './base/header.html'}}
-    
+    {{include './base/header.html'}}
+
     <div class="container">
         <form id="form" method="post" action="/">
-            <div class="form-group">
-                <label for="">歌曲编号</label>
-                <input type="text" name="id" class="form-control" placeholder="请输入歌曲编号">
-            </div>
+
             <div class="form-group">
                 <label for="">歌曲标题</label>
                 <input type="text" name="title" class="form-control" placeholder="请输入歌曲标题">
@@ -32,10 +29,57 @@
                 <input type="file" name="file">
                 <p class="help-block">请上传歌曲文件.</p>
             </div>
+            <div class="form-group">
+                <label for="">歌曲歌词文件</label>
+                <input type="file" name="filelrc">
+                <p class="help-block">请上传歌曲歌词文件.</p>
+            </div>
             <button type="submit" class="btn btn-success">点击添加</button>
         </form>
     </div>
-     {{include './base/footer.html'}}
+    {{include './base/footer.html'}}
+
+
+    <script>
+        $("#form").on("submit", function (e) {
+            e.preventDefault();
+            var inputs = $("input");
+            // 获取表单中的值  装载文件
+            var formData = new FormData();
+            
+
+            formData.append("title", inputs[0].value);
+            formData.append("time", inputs[1].value);
+            formData.append("singer", inputs[2].value);
+            formData.append("file", inputs[3].files[0]);
+            formData.append("filelrc", inputs[4].files[0]);
+            
+            console.log(formData);
+
+            $.ajax({
+                url:'/api/music-add',
+                type:'post',
+                data:formData,
+                contentType:false,//默认加的是application/x-www-form-urlencoded 
+                processData:false,//转换你的数据
+                dataType:"json",
+                success:function(data){
+                    // console.log(data);
+                    if (data.code=="001") {
+                       if(confirm("上传成功是否去听歌")) {
+                           window.location.href='/music/list-music';
+                       }
+                    }else{
+                        alert(data,msg);
+                    }
+                    
+                }
+            })
+
+
+
+        })
+    </script>
 
 </body>
 

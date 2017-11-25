@@ -41,7 +41,7 @@
                 <small>我的音乐</small>
             </h1>
         </div>
-        <a href="/addMusic" class="btn btn-success">添加音乐</a>
+<a href="/music/add-music" class="btn btn-success">添加音乐</a>
     </div>
     <div class="container">
         <div class="row" style="display: flex;">
@@ -92,9 +92,7 @@
     {{include './base/footer.html'}}
 
     <script>
-
-
-
+        // 给所有的span标签添加点击事件
         $(".ply").on("click", function () {
             var $span = $(this);
             var file = $span.data("file");
@@ -105,11 +103,76 @@
                 type: 'get',
                 url: filelrc,
                 success: function (str) {
+                    console.log(str);
+
+                    // 解析歌词对象
+                    var strobj = parseObj(str)
+                    console.log(strobj);
+                    // 创建歌词对象DOM
+                    var htmlStr = createDom(strobj)
+                    console.log(htmlStr);
+
+                    $('#lrc').html(htmlStr);
+                    scroll(strobj)
+
                     //播放音乐
                     $("#audio").attr("src", file);
                 }
             })
         })
+
+        // 解析歌词对象
+        function parseObj(str) {
+            // 声明一个用于保存歌词的对象
+            var obj = {};
+            // 按照 /n 分隔开字符串
+            var lines = str.split("\n");
+            //正则????TODO:
+            var regex = /\[(\d{2})\:(\d{2})\.(\d{2})\](.*)/;
+            //遍历
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                var result = regex.exec(line);
+                if (!result) continue; //统计时间作为对象的key,歌词作为对象的value
+                // 1: "00"2: "00"3: "98"4: "告白气球" 
+                var minute = (result[1] - 0) * 60; //分 
+                var second = result[2] - 0; //秒 
+                var ms = Math.round(result[3] / 100); // 毫秒
+                var time = minute + second + ms;
+                obj[time] = result[4];
+            }
+            return obj;
+
+        };
+
+        // 根据歌词对象生成DOM
+        function createDom(obj) {
+            var str = '';
+
+            for (var time in obj) {
+
+                str += '<p time=' + time + '>' + obj[time] + '</p>';
+            }
+            return str;
+        }
+
+        //滚动
+        function scroll(lrcObj) {
+            $('#audio').on('timeupdate', function (e) {
+                //四舍五入秒，更容易匹配上对象，能发生滚动
+                var jumpPoint = Math.round(e.target.currentTime);
+                //判断能否滚动
+                if (!lrcObj[jumpPoint]) return;
+                //通过事件查找元素
+                var p = $('#lrc').find('p[time=' + jumpPoint + ']');
+                var minusHeight = $('#lrc').offset().top - p.offset().top;
+                p.addClass('gl').siblings().removeClass('gl');
+                $('#lrc').animate({
+                    top: minusHeight //负数向上更多
+                }, 'slow');
+
+            });
+        }
     </script>
 </body>
 
