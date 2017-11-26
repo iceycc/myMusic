@@ -81,6 +81,7 @@
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({
     extended: false
+     
   }));
   // parse application/json
   app.use(bodyParser.json());
@@ -111,6 +112,10 @@
   * html公共部分抽离 
   * 胡子语法 include 类似php
 * 登录页
+  * 点击 记住我
+  * 主要是让客户端保存一个用户名
+  * 如果要保存密码应该是加密的密码
+  * 保存在cookie中
 * 音乐列表
   * 歌词滚动的实现
     * 思路 以事件为属性 歌词为值 创建歌词对象
@@ -123,6 +128,8 @@
       * 获取e.targert/currentTime() TODO:
     * 获取歌词 及 滚动时的top值
     * 其他 for循环中的continue 
+* 获取普通表单的值
+  * jq中的$("#form").serialize() 可以快速获取一个表单的对象
 * formData文件上传
   * new FormData()
   * formData.append()
@@ -141,6 +148,29 @@
   * session
 
 * 在中间件中使用 app.locals.xxx.给模板引擎传值
+* 编辑页 
+  * GET  /music/edit-music
+  * 将要编辑歌曲的id作为参数传给后台 通过隐藏域传递
+  * 传送参数的方式 二选一
+    * 查询字符串 url  => req.query
+    * path方法 url   => req.parms 
+  * 向后端传参时注意前后端
+* 删除歌曲
+  * 异步无刷新删除
+  * 删除成功 异步删除
+  * 删除失败 刷新页面
+* 注册页
+  * 表单填写
+  * 表单验证--前台/后台
+  * 密码强度★★★★★
+  * =>验证码 ★★★★★
+    * 载入页面时 验证码img的src发送请求1 生成随机图片 保存在session中
+    * npm包 captchapng2 彩色验证码
+      * 生成答案
+      * 生成图片对象
+      * 将答案储存在session中
+      * 点击验证码图片刷新 更改src 结合 时间戳 data.now
+* 
 #### 项目代码结构 app.js
 * 中间件
   * 自定义功能
@@ -162,4 +192,26 @@
     + 将参数作为删除的条件,进行del操作
     + 根据操作结果做出响应
   + 删除成功后数据库返回结果
++ 歌词滚动
+  + 1.请求歌词数据解析成对象
+  + 2.通过对象生成DOM,将其插入到歌词盒子
+  + 3.滚动
+      + audio的timeupdate事件
+      + e.target.currentTime获取时间
+      + TODO:
++ input节流
+  + 应用到闭包 保护全局变量 不要污染到全局变量
++ 后台校验数据时注意先进行简单的验证 需要链接数据库1的校验要放后面
 
+### 项目总结
+* app.js
+* 后台接口
+  * 登陆 注册 音乐的增删改查
+    * 登陆:验证用户名密码一直 保存在session中
+      * 后台权限验证
+        * 在中间件中 通过正则区分哪些需要验证
+      * 音乐的增删改查
+    * 注册
+      * 用户名 input节流
+      * 密码强度
+      * 验证码

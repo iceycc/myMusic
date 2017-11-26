@@ -2,7 +2,9 @@
   <div class="container">
     <!-- 用户栏 -->
     <div class="aw-user-nav">
+      {{if user}}
       <a href="" class="aw-user-nav-dropdown">
+        {{user.username}}
       </a>
       <div class="aw-dropdown dropdown-list pull-right">
         <ul class="aw-dropdown-list">
@@ -12,13 +14,32 @@
           </li>
         </ul>
       </div>
+      {{else}}
       <!-- 登陆&注册栏 -->
       <span>
         <a class="register btn btn-normal btn-success" href="">注册</a>
         <a class="login btn btn-normal btn-primary" href="">登录</a>
       </span>
+      {{/if}}
       <!-- end 登陆&注册栏 -->
     </div>
     <!-- end 用户栏 -->
   </div>
 </div>
+
+
+<script>
+  $("login").on("click", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/api/logout',
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        if (data.code == '001') {
+          location.href = '/user/login';
+        }
+      }
+    })
+  })
+</script>
