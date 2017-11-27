@@ -92,6 +92,8 @@
     {{include './base/footer.html'}}
 
     <script>
+        // console.log(null instanceof Object)
+        判断是否
         //点击删除歌曲
         // 1获取当前歌曲id
         // 2发送ajax请求 
@@ -99,7 +101,7 @@
         $(".del").on("click",function(e){
             e.preventDefault();
             var id = $(this).data("id");
-            console.log(id)
+            // console.log(id)
             var url = "/api/music-del?id=" + id;
             var _this = this;
             $.ajax({
