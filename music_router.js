@@ -6,16 +6,18 @@ const express = require('express');
 
 
 // 引入userC 
-const userC = require('./controllers/musicC');
+const musicC = require('./controllers/musicC');
 
 
 // 配置路由 开始  /music
 let router = express.Router();
 router
   // 添加音乐
-  .get('/add-music', userC.showAddMusic)
+  .get('/add-music', musicC.showAddMusic)
   // 显示页面列表
-  .get('/list-music', userC.showListMusic)
+  .get('/list-music', musicC.showListMusic)
+  // 显示编辑页面
+  .get('/edit-music/:id', musicC.showEdit)
 
 // TODO:postman 验证完毕 然后就是做前端验证
 // 暴露

@@ -22,25 +22,31 @@
         <form id="form" method="post" action="">
             <div class="form-group">
                 <label for="">歌曲编号</label>
-                <input type="text" name="id" class="form-control" readonly placeholder="请输入歌曲编号">
+                <input type="text" name="id" class="form-control" readonly placeholder="请输入歌曲编号" value="{{music.id}}">
             </div>
             <div class="form-group">
                 <label for="">歌曲标题</label>
-                <input type="text" name="title" class="form-control" placeholder="请输入歌曲标题">
+                <input type="text" name="title" class="form-control" placeholder="请输入歌曲标题" value="{{music.title}}">
             </div>
             <div class="form-group">
                 <label for="">歌曲时长</label>
-                <input type="text" name="time" class="form-control" placeholder="请输入歌曲时长">
+                <input type="text" name="time" class="form-control" placeholder="请输入歌曲时长" value="{{music.time}}">
             </div>
             <div class="form-group">
                 <label for="">歌手</label>
-                <input type="text" name="singer" class="form-control" placeholder="请输入歌手姓名">
+                <input type="text" name="singer" class="form-control" placeholder="请输入歌手姓名" value="{{music.singer}}">
             </div>
             <div class="form-group">
                 <label for="">歌曲文件</label>
-                <input type="file" name="file">
-                <input type="hidden" name="" src="">
+                <input type="file" name="file" value="{{music.file}}">
+
                 <p class="help-block">请上传歌曲文件.</p>
+            </div>
+            <div class="form-group">
+                <label for="">歌曲歌词文件</label>
+
+                <input type="file" name="filelrc" value="{{music.filelrc}}">
+                <p class="help-block">请上传歌曲歌词文件.</p>
             </div>
             <button type="submit" class="btn btn-success">完成编辑</button>
 
@@ -48,6 +54,53 @@
     </div>
     {{include './base/footer.html'}}
 
+
+    <script>
+        // 注册表单提交事件
+        $("#form").on("submit", function (e) {
+            // 取消默认事件
+            e.preventDefault();
+            // 获取各个数局封装入formData
+            var formData = new FormData();
+            var inputs = $("input")
+            var title = inputs[1].value;
+            var time = inputs[2].value;
+            var singer = inputs[3].value;
+            var files = inputs[4].files[0];
+            var fileslrc = inputs[5].files[0];
+
+            formData.append("title", title);
+            formData.append("time", time);
+            formData.append("singer", singer);
+            formData.append("files", files);
+            formData.append("fileslrc", fileslrc);
+            // 这里打印补出来呢
+            // console.log(formData)
+            $.ajax({
+                type: "post",
+                url: '/api/music-update',
+                data: formData,
+                dataType: "json",
+                // 不要设置头
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.code == '001') {
+                        if (confirm("更新成功,是否去听歌呢")) {
+                            location.href = '/music/list-music';
+                        }
+                        return;
+                    }
+                    // 002
+                    alert(data.msg);
+                }
+            })
+
+
+
+
+        })
+    </script>
 </body>
 
 </html>

@@ -67,7 +67,7 @@
                                 <a href="">编辑</a>
                             </td>
                             <td>
-                                <a class="del" href="">删除</a>
+                                <a class="del" href="javascript:;" data-id="{{$value.id}}">删除</a>
                             </td>
                             <td>
                                 <span style="cursor:pointer" data-file="{{$value.file}}" data-lrc="{{$value.filelrc}}" src="" class="glyphicon glyphicon-play-circle ply"></span>
@@ -92,6 +92,36 @@
     {{include './base/footer.html'}}
 
     <script>
+        //点击删除歌曲
+        // 1获取当前歌曲id
+        // 2发送ajax请求 
+        //   get url： ’/api/music-del‘
+        $(".del").on("click",function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+            console.log(id)
+            var url = "/api/music-del?id=" + id;
+            var _this = this;
+            $.ajax({
+                type:"get",
+                url:url,
+                data:"",
+                dataType:"json",
+                success:function(data){
+                    console.log(data)
+                    if(data.code == '001'){
+                        // 删除成功 删除dom
+                        var tr = _this.parentNode.parentNode;
+                        tr.parentNode.removeChild(tr);
+                        
+                        
+                    }
+                }
+            })
+        })
+
+
+
         // 给所有的span标签添加点击事件
         $(".ply").on("click", function () {
             var $span = $(this);
@@ -173,6 +203,9 @@
 
             });
         }
+
+
+
     </script>
 </body>
 

@@ -178,10 +178,11 @@ musicC.delMusic = (req,res,next) => {
   // 3根据操作做出反应
   let id = req.query.id;
   let uid = req.session.user.id;
+  // console.log(id, uid)
   // delete from "tablename" where "columnname" 
   db.q('delete from musics where id = ? and uid = ?',[id,uid],(err,data)=>{
     if(err) return next(err);
-    console.log(data);
+    // console.log(data);
     if (data.affectedRows != 0){
       res.json({
         code: '001',
@@ -230,5 +231,31 @@ musicC.showListMusic = (req,res,next) => {
   
 }
 
+/**
+ * 显示编辑
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+musicC.showEdit = (req,res,next) => {
+  // console.log(req.session.user)
+  // 1 url上的path方式参数接受
+  let id = req.params.id;
+  // 2 根据id 查询数据库
+  db.q('select * from musics where id = ?',[id],(err,data)=>{
+    console.log(data)
+    if(err) return next(err);
+    if(data.length==0){
+      return res.json({
+        code:'001',
+        msg:'没有找到数据'
+      })
+    }
+    // 找到数据将数据渲染到编辑页面
+    res.render('edit.html',{
+      music:data[0]
+    })
+  })
+}
 
 module.exports = musicC;
